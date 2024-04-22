@@ -11,4 +11,6 @@ go get -u xorm.io/xorm
 go get -u github.com/spf13/viper
 
 go get -u github.com/fsnotify/fsnotify
+
+go get github.com/kataras/iris/v12@latest
 ```
