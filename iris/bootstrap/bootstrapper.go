@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"go-learn/iris/config"
 	"os"
 	"time"
 
@@ -28,7 +29,7 @@ func New(cfgs ...Configurator) *Bootstrapper {
 }
 
 func SetLogger(b *Bootstrapper) {
-	b.Logger().SetLevel("debug")
+	b.Logger().SetLevel(config.C.Iris.LogLevel)
 	b.Logger().SetOutput(makeLog())
 	b.Logger().AddOutput(os.Stdout)
 }
@@ -46,9 +47,9 @@ func (b *Bootstrapper) Configure(cs ...Configurator) {
 }
 
 func makeLog() *rotatelogs.RotateLogs {
-	pathToAccessLog := "./runtimes/logs/log.%Y-%m-%d-%H"
+	log := "./runtimes/logs/log.%Y-%m-%d-%H"
 	w, err := rotatelogs.New(
-		pathToAccessLog,
+		log,
 		rotatelogs.WithMaxAge(24*time.Hour),    //最大保存时间
 		rotatelogs.WithRotationTime(time.Hour)) //文件的轮转时间间隔
 	if err != nil {

@@ -10,24 +10,24 @@ import (
 	"xorm.io/xorm"
 )
 
+type DbSource struct {
+	Engine *xorm.Engine
+	Lock   *sync.Mutex
+	DbCfg  *config.DbCfg
+}
+
 var (
-	master = &dbSource{
+	master = &DbSource{
 		Engine: nil,
 		Lock:   &sync.Mutex{},
 		DbCfg:  config.DB.Master,
 	}
-	slave = &dbSource{
+	slave = &DbSource{
 		Engine: nil,
 		Lock:   &sync.Mutex{},
 		DbCfg:  config.DB.Slave,
 	}
 )
-
-type dbSource struct {
-	Engine *xorm.Engine
-	Lock   *sync.Mutex
-	DbCfg  *config.DbCfg
-}
 
 func Slave() *xorm.Engine {
 	if slave.Engine != nil {
@@ -69,14 +69,13 @@ func CloseEngine() {
 	}
 }
 
-func createEngine(source *dbSource) *xorm.Engine {
-	cfg := source.DbCfg
+func createEngine(source *DbSource) *xorm.Engine {
 	driver := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8",
-		cfg.Username,
-		cfg.Password,
-		cfg.Host,
-		cfg.Port,
-		cfg.Database,
+		source.DbCfg.Username,
+		source.DbCfg.Password,
+		source.DbCfg.Host,
+		source.DbCfg.Port,
+		source.DbCfg.Database,
 	)
 	engine, err := xorm.NewEngine("mysql", driver)
 	if err != nil {
@@ -84,7 +83,7 @@ func createEngine(source *dbSource) *xorm.Engine {
 		return nil
 	}
 	engine.ShowSQL(true)
-	engine.SetMaxIdleConns(cfg.MaxIdleConn) //最大空闲
-	engine.SetMaxOpenConns(cfg.MaxOpenConn) //最大连接
+	engine.SetMaxIdleConns(source.DbCfg.MaxIdleConn) //最大空闲
+	engine.SetMaxOpenConns(source.DbCfg.MaxOpenConn) //最大连接
 	return engine
 }
