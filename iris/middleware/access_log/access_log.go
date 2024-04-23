@@ -19,7 +19,6 @@ func New(b *bootstrap.Bootstrapper) *accesslog.AccessLog {
 // Configure creates a new identity middleware and registers that to the app.
 func Configure(b *bootstrap.Bootstrapper) {
 	ac := New(b)
-	//b.UseGlobal(h)
 	b.UseRouter(ac.Handler)
 	broker := ac.Broker()
 	b.Get("/logs", accesslog.SkipHandler, accessLogBrokerHandler(broker))
