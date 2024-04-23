@@ -1,18 +1,21 @@
 package main
 
 import (
-	"github.com/kataras/iris/v12"
+	"go-learn/iris/bootstrap"
+	"go-learn/iris/middleware/access_log"
 	"go-learn/iris/routes"
+
+	"github.com/kataras/iris/v12"
 )
 
 func main() {
 	app := newApp()
-	app.Logger().SetLevel("debug")
 	_ = app.Listen(":8082", iris.WithOptimizations)
 }
 
-func newApp() *iris.Application {
-	app := iris.New()
-	routes.Configure(app)
+func newApp() *bootstrap.Bootstrapper {
+	app := bootstrap.New(bootstrap.SetLogger)
+	app.Bootstrap()
+	app.Configure(access_log.Configure, routes.Configure)
 	return app
 }

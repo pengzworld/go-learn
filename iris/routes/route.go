@@ -1,14 +1,14 @@
 package routes
 
 import (
+	"go-learn/iris/bootstrap"
 	"go-learn/iris/controllers"
 	"go-learn/iris/models"
 
-	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 )
 
-func Configure(app *iris.Application) {
+func Configure(app *bootstrap.Bootstrapper) {
 	mvc.Configure(app.Party("/user"), func(app *mvc.Application) {
 		/**
 		自动注入
