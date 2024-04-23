@@ -1,9 +1,0 @@
-{
-  "Username": "remote",
-  "Password": "rxLt2bdQAyf9E",
-  "Host": "192.168.1.154",
-  "Port": "3308",
-  "Database": "hw_jiaoyu_cn",
-  "MaxIdleConn": "5",
-  "MaxOpenConn": "10"
-}
