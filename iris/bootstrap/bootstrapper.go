@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"github.com/kataras/iris/v12/middleware/monitor"
 	"go-learn/iris/config"
 	"os"
 	"time"
@@ -32,6 +33,15 @@ func SetLogger(b *Bootstrapper) {
 	b.Logger().SetLevel(config.C.Iris.LogLevel)
 	b.Logger().SetOutput(makeLog())
 	b.Logger().AddOutput(os.Stdout)
+}
+
+func SetMonitor(b *Bootstrapper) {
+	m := monitor.New(monitor.Options{
+		RefreshInterval:     2 * time.Second,
+		ViewRefreshInterval: 2 * time.Second,
+		ViewTitle:           "MyServer Monitor",
+	})
+	b.Get("/monitor", m.View)
 }
 
 func (b *Bootstrapper) Bootstrap() *Bootstrapper {
