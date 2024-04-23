@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"github.com/kataras/iris/v12/middleware/monitor"
+	"github.com/kataras/iris/v12/middleware/recover"
 	"go-learn/iris/config"
 	"os"
 	"time"
@@ -44,6 +45,11 @@ func SetMonitor(b *Bootstrapper) {
 	b.Get("/monitor", m.View)
 }
 
+func SetMiddleware(b *Bootstrapper) {
+	b.Use(iris.Compression)
+	b.Use(recover.New())
+}
+
 func (b *Bootstrapper) Bootstrap() *Bootstrapper {
 	b.HandleDir("/public", iris.Dir("./public/"))
 	return b
@@ -57,11 +63,12 @@ func (b *Bootstrapper) Configure(cs ...Configurator) {
 }
 
 func makeLog() *rotatelogs.RotateLogs {
-	log := "./runtimes/logs/log.%Y-%m-%d-%H"
+	//log := "./runtimes/logs/log.%Y-%m-%d-%H"
+	log := "./runtimes/logs/%Y-%m/log.%Y-%m-%d.log"
 	w, err := rotatelogs.New(
 		log,
-		rotatelogs.WithMaxAge(24*time.Hour),    //最大保存时间
-		rotatelogs.WithRotationTime(time.Hour)) //文件的轮转时间间隔
+		rotatelogs.WithMaxAge(24*time.Hour*7),     //最大保存时间
+		rotatelogs.WithRotationTime(24*time.Hour)) //文件的轮转时间间隔
 	if err != nil {
 		panic(err)
 	}

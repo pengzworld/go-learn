@@ -18,7 +18,7 @@ func main() {
 }
 
 func newApp() *bootstrap.Bootstrapper {
-	app := bootstrap.New(bootstrap.SetLogger, bootstrap.SetMonitor)
+	app := bootstrap.New(bootstrap.SetLogger, bootstrap.SetMonitor, bootstrap.SetMiddleware)
 	app.Bootstrap()
 	app.Configure(access_log.Configure, routes.Configure)
 	return app

@@ -18,9 +18,11 @@ func New(b *bootstrap.Bootstrapper) *accesslog.AccessLog {
 
 // Configure creates a new identity middleware and registers that to the app.
 func Configure(b *bootstrap.Bootstrapper) {
-	h := New(b)
+	ac := New(b)
 	//b.UseGlobal(h)
-	b.UseRouter(h.Handler)
+	b.UseRouter(ac.Handler)
+	broker := ac.Broker()
+	b.Get("/logs", accesslog.SkipHandler, accessLogBrokerHandler(broker))
 }
 
 // Default line format:
@@ -28,11 +30,12 @@ func Configure(b *bootstrap.Bootstrapper) {
 //
 // Read the example and its comments carefully.
 func makeAccessLog() *accesslog.AccessLog {
-	pathToAccessLog := "./runtimes/logs/access_log.%Y-%m-%d-%H"
+	//pathToAccessLog := "./runtimes/logs/access_log.%Y-%m-%d-%H"
+	pathToAccessLog := "./runtimes/logs/%Y-%m/access_log.%Y-%m-%d.log"
 	w, err := rotatelogs.New(
 		pathToAccessLog,
-		rotatelogs.WithMaxAge(24*time.Hour),    //最大保存时间
-		rotatelogs.WithRotationTime(time.Hour)) //文件的轮转时间间隔
+		rotatelogs.WithMaxAge(24*time.Hour*7),     //最大保存时间
+		rotatelogs.WithRotationTime(24*time.Hour)) //文件的轮转时间间隔
 	if err != nil {
 		panic(err)
 	}
@@ -68,4 +71,27 @@ func makeAccessLog() *accesslog.AccessLog {
 	})
 
 	return ac
+}
+
+func accessLogBrokerHandler(b *accesslog.Broker) iris.Handler {
+	return func(ctx iris.Context) {
+		// accesslog.Skip(ctx) // or inline skip.
+		logs := b.NewListener() // <- IMPORTANT
+
+		ctx.Header("Transfer-Encoding", "chunked")
+		notifyClose := ctx.Request().Context().Done()
+		for {
+			select {
+			case <-notifyClose:
+				b.CloseListener(logs) // <- IMPORTANT
+
+				err := ctx.Request().Context().Err()
+				ctx.Application().Logger().Infof("Listener closed [%v], loop end.", err)
+				return
+			case log := <-logs: // <- IMPORTANT
+				_ = ctx.JSON(log, iris.JSON{Indent: "  ", UnescapeHTML: true})
+				ctx.ResponseWriter().Flush()
+			}
+		}
+	}
 }
