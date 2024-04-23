@@ -2,11 +2,10 @@ package config
 
 import (
 	"fmt"
+	"go-learn/iris/utils"
 	"os"
 
-	"github.com/fsnotify/fsnotify"
 	"github.com/kataras/iris/v12"
-	"github.com/spf13/viper"
 )
 
 func init() {
@@ -27,27 +26,27 @@ var C = struct {
 	// other default values...
 }
 
+type DbCfg struct {
+	Username    string `json:"Username"`
+	Password    string `json:"Password"`
+	Host        string `json:"Host"`
+	Port        string `json:"Port"`
+	Database    string `json:"Database"`
+	MaxIdleConn int    `json:"MaxIdleConn"`
+	MaxOpenConn int    `json:"MaxOpenConn"`
+}
+
+var DB = struct {
+	Master *DbCfg
+	Slave  *DbCfg
+}{}
+
 func loadConfiguration() {
 	env := os.Getenv("ENVIRONMENT")
 	if env == "" {
 		env = "development"
 	}
-	configFile := fmt.Sprintf("config/%s.yml", env)
-	viper.SetConfigFile(configFile)
-	if err := viper.ReadInConfig(); err != nil {
-		panic(err)
-	}
-	// 监听配置文件
-	viper.WatchConfig()
-	viper.OnConfigChange(func(in fsnotify.Event) {
-		fmt.Println("config file changed:", in.Name)
-		// 重载配置
-		if err := viper.Unmarshal(&C); err != nil {
-			panic(err)
-		}
-		fmt.Println(&C)
-	})
-	if err := viper.Unmarshal(&C); err != nil {
-		panic(err)
-	}
+	file := fmt.Sprintf("config/%s.yml", env)
+	utils.ViperConf(file, &C)
+	utils.ViperConf("config/db.json", &DB)
 }

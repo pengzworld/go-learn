@@ -2,7 +2,7 @@ package dbsource
 
 import (
 	"fmt"
-	"go-learn/iris/utils"
+	"go-learn/iris/config"
 	"log"
 	"sync"
 
@@ -11,31 +11,22 @@ import (
 )
 
 var (
-	master = &DbSource{
+	master = &dbSource{
 		Engine: nil,
 		Lock:   &sync.Mutex{},
+		DbCfg:  config.DB.Master,
 	}
-	slave = &DbSource{
+	slave = &dbSource{
 		Engine: nil,
 		Lock:   &sync.Mutex{},
+		DbCfg:  config.DB.Slave,
 	}
 )
 
-func init() {
-	utils.ViperConf("config/db-slave.json", master)
-	utils.ViperConf("config/db-master.json", master)
-}
-
-type DbSource struct {
-	Engine      *xorm.Engine
-	Lock        *sync.Mutex
-	Username    string `json:"Username"`
-	Password    string `json:"Password"`
-	Host        string `json:"Host"`
-	Port        string `json:"Port"`
-	Database    string `json:"Database"`
-	MaxIdleConn int    `json:"MaxIdleConn"`
-	MaxOpenConn int    `json:"MaxOpenConn"`
+type dbSource struct {
+	Engine *xorm.Engine
+	Lock   *sync.Mutex
+	DbCfg  *config.DbCfg
 }
 
 func Slave() *xorm.Engine {
@@ -78,13 +69,14 @@ func CloseEngine() {
 	}
 }
 
-func createEngine(source *DbSource) *xorm.Engine {
+func createEngine(source *dbSource) *xorm.Engine {
+	cfg := source.DbCfg
 	driver := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8",
-		source.Username,
-		source.Password,
-		source.Host,
-		source.Port,
-		source.Database,
+		cfg.Username,
+		cfg.Password,
+		cfg.Host,
+		cfg.Port,
+		cfg.Database,
 	)
 	engine, err := xorm.NewEngine("mysql", driver)
 	if err != nil {
@@ -92,7 +84,7 @@ func createEngine(source *DbSource) *xorm.Engine {
 		return nil
 	}
 	engine.ShowSQL(true)
-	engine.SetMaxIdleConns(source.MaxIdleConn) //最大空闲
-	engine.SetMaxOpenConns(source.MaxOpenConn) //最大连接
+	engine.SetMaxIdleConns(cfg.MaxIdleConn) //最大空闲
+	engine.SetMaxOpenConns(cfg.MaxOpenConn) //最大连接
 	return engine
 }
