@@ -1,0 +1,88 @@
+[DBUG] controllers.UserController
+  ╺ UserModel           → ./routes/route.go:19
+  ╺ Get
+      GET /user
+    • **context.Context → /Users/pengz/go_workspace/src/go-learn/iris/routes/route.go:20
+[DBUG] 2024/04/23 10:39 API: 5 registered routes (3 GET and 2 HEAD)
+GET: /public ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /public/{file:path} ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /user controllers.UserController (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/hero/handler.go:141)
+     • controllers.UserController.Get (./controllers/UserController.go:12)
+
+HEAD: /public (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+HEAD: /public/{file:path} (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+
+Iris Version:   12.2.10
+Build Time:     2024-04-23T01:59:10Z
+Build Revision: 4324f0a006fb77166354d43f4ec79bac22ecee8d
+
+Now listening on: 
+> Network:  http://192.168.1.167:8082
+> Network:  http://10.10.10.19:8082
+> Local:    http://localhost:8082
+Application started. Press CTRL+C to shut down.
+[DBUG] controllers.UserController
+  ╺ UserModel           → ./routes/route.go:19
+  ╺ Get
+      GET /user
+    • **context.Context → /Users/pengz/go_workspace/src/go-learn/iris/routes/route.go:20
+[DBUG] 2024/04/23 10:49 API: 5 registered routes (3 GET and 2 HEAD)
+GET: /public ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /public/{file:path} ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /user controllers.UserController (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/hero/handler.go:141)
+     • controllers.UserController.Get (./controllers/UserController.go:12)
+
+HEAD: /public (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+HEAD: /public/{file:path} (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+
+[DBUG] 2024/04/23 10:49 Host: server will ignore the following errors: [http: Server closed]
+[ERRO] 2024/04/23 10:49 listen tcp 127.0.0.1:8080: bind: address already in use
+[DBUG] controllers.UserController
+  ╺ UserModel           → ./routes/route.go:19
+  ╺ Get
+      GET /user
+    • **context.Context → /Users/pengz/go_workspace/src/go-learn/iris/routes/route.go:20
+[DBUG] 2024/04/23 10:49 API: 5 registered routes (3 GET and 2 HEAD)
+GET: /public ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /public/{file:path} ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /user controllers.UserController (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/hero/handler.go:141)
+     • controllers.UserController.Get (./controllers/UserController.go:12)
+
+HEAD: /public (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+HEAD: /public/{file:path} (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+
+[DBUG] 2024/04/23 10:49 Host: server will ignore the following errors: [http: Server closed]
+Iris Version:   12.2.10
+Build Time:     2024-04-23T01:59:10Z
+Build Revision: 4324f0a006fb77166354d43f4ec79bac22ecee8d
+
+Now listening on: http://127.0.0.1:8082
+Application started. Press CTRL+C to shut down.
+[DBUG] controllers.UserController
+  ╺ UserModel           → ./routes/route.go:19
+  ╺ Get
+      GET /user
+    • **context.Context → /Users/pengz/go_workspace/src/go-learn/iris/routes/route.go:20
+[DBUG] 2024/04/23 10:52 API: 5 registered routes (3 GET and 2 HEAD)
+GET: /public ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /public/{file:path} ./public/ (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+     • iris/core/router.StripPrefix.func1 (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:203)
+GET: /user controllers.UserController (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/hero/handler.go:141)
+     • controllers.UserController.Get (./controllers/UserController.go:12)
+
+HEAD: /public (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+HEAD: /public/{file:path} (/Users/pengz/go_workspace/pkg/mod/github.com/kataras/iris/v12@v12.2.10/core/router/fs.go:433)
+
+Iris Version:   12.2.10
+Build Time:     2024-04-23T01:59:10Z
+Build Revision: 4324f0a006fb77166354d43f4ec79bac22ecee8d
+
+Now listening on: http://127.0.0.1:8082
+Application started. Press CTRL+C to shut down.

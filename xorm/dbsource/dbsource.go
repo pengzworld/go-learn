@@ -22,8 +22,8 @@ var (
 )
 
 func init() {
-	utils.ViperConf("conf/db-slave.json", master)
-	utils.ViperConf("conf/db-master.json", master)
+	utils.ViperConf("config/db-slave.json", master)
+	utils.ViperConf("config/db-master.json", master)
 }
 
 type DbSource struct {
