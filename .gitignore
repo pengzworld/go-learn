@@ -1,2 +1,3 @@
 .idea
 iris/runtimes/logs/*
+*.log

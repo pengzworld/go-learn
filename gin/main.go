@@ -1,13 +1,36 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/facebookgo/grace/gracehttp"
+	"github.com/gin-gonic/gin"
+	"go-learn/gin/bootstrap"
+	"go-learn/gin/route"
+	"log"
+	"net/http"
+)
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	_ = r.Run(":8083") // 监听并在 0.0.0.0:8080 上启动服务
+	app := newApp()
+	server := []*http.Server{
+		{
+			Addr:    ":8083",
+			Handler: app,
+		},
+	}
+	logger := log.New(gin.DefaultWriter, "[GIN-GRACE]", 0)
+	gracehttp.SetLogger(logger)
+	err := gracehttp.ServeWithOptions(server, gracehttp.PreStartProcess(func() error {
+		//重启前的操作,如释放外部资源等
+		//kill -SIGUSR2 9347 触发重启
+		logger.Println("Release other resource...")
+		return nil
+	}))
+	if err != nil {
+		logger.Fatalf("Failed to start server: %v", err)
+	}
+}
+
+func newApp() *gin.Engine {
+	app := bootstrap.New(route.Configure)
+	return app
 }
