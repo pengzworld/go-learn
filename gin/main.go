@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/facebookgo/grace/gracehttp"
-	"github.com/gin-gonic/gin"
-	"go-learn/gin/bootstrap"
-	"go-learn/gin/route"
 	"log"
 	"net/http"
+
+	"go-learn/gin/bootstrap"
+	"go-learn/gin/route"
+
+	"github.com/facebookgo/grace/gracehttp"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
