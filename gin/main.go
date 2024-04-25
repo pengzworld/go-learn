@@ -1,6 +1,7 @@
 package main
 
 import (
+	"go-learn/gin/middleware"
 	"log"
 	"net/http"
 
@@ -33,6 +34,6 @@ func main() {
 }
 
 func newApp() *gin.Engine {
-	app := bootstrap.New(route.Configure)
+	app := bootstrap.New(middleware.Configure, route.Configure)
 	return app
 }
