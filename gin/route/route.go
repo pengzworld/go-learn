@@ -29,6 +29,6 @@ func Configure(e *gin.Engine) {
 				c.JSON(200, "/admin/v1/user")
 			})
 		}
-		admin.GET("/user/:name", new(controller.UserController).Login)
+		admin.GET("/user/name", new(controller.UserController).Login)
 	}
 }

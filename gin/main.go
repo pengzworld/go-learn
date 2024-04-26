@@ -1,39 +1,32 @@
 package main
 
 import (
-	"go-learn/gin/middleware"
-	"log"
-	"net/http"
-
+	"github.com/fvbock/endless"
 	"go-learn/gin/bootstrap"
+	_ "go-learn/gin/config"
 	"go-learn/gin/route"
+	"log"
+	"syscall"
 
-	"github.com/facebookgo/grace/gracehttp"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	app := newApp()
-	server := []*http.Server{
-		{
-			Addr:    ":8083",
-			Handler: app,
-		},
-	}
-	logger := log.New(gin.DefaultWriter, "[GIN-GRACE]", 0)
-	gracehttp.SetLogger(logger)
-	err := gracehttp.ServeWithOptions(server, gracehttp.PreStartProcess(func() error {
-		//重启前的操作,如释放外部资源等
-		//kill -SIGUSR2 9347 触发重启
-		logger.Println("Release other resource...")
-		return nil
-	}))
+	srv := endless.NewServer(":8083", app)
+
+	srv.SignalHooks[endless.POST_SIGNAL][syscall.SIGHUP] = append(
+		srv.SignalHooks[endless.POST_SIGNAL][syscall.SIGHUP],
+		bootstrap.CloseResourcesBySignal)
+
+	err := srv.ListenAndServe()
 	if err != nil {
-		logger.Fatalf("Failed to start server: %v", err)
+		log.Println(err)
 	}
+	log.Println("Server exiting...")
 }
 
 func newApp() *gin.Engine {
-	app := bootstrap.New(middleware.Configure, route.Configure)
+	app := bootstrap.New(bootstrap.UseDefault, route.Configure)
 	return app
 }
