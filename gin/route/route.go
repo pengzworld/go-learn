@@ -22,13 +22,13 @@ func Configure(e *gin.Engine) {
 	admin := e.Group("/admin") // 第二个参数 其实就是中间件
 	{
 		admin.Use(middleware.CostTime()) // 分组中间件
-		admin.Use(gin.BasicAuth(gin.Accounts{"admin": "123"}))
+		//admin.Use(gin.BasicAuth(gin.Accounts{"admin": "123"}))
 		adminV1 := admin.Group("/v1") //路由嵌套分组
 		{
 			adminV1.GET("/user", func(c *gin.Context) {
 				c.JSON(200, "/admin/v1/user")
 			})
 		}
-		admin.GET("/user/name", new(controller.UserController).Login)
+		admin.Any("/user/name", new(controller.UserController).Login)
 	}
 }

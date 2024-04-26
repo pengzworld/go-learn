@@ -1,0 +1,35 @@
+package middleware
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"os"
+	"time"
+)
+
+var LogrusLog = logrus.New()
+
+func init() {
+	LogrusLog.SetLevel(logrus.TraceLevel)
+	LogrusLog.Formatter = &logrus.JSONFormatter{}
+	//LogrusLog.Formatter = &logrus.JSONFormatter{PrettyPrint: true}
+	//LogrusLog.SetFormatter(caption_json_formatter.Console())
+	LogrusLog.Out = os.Stdout
+}
+
+func AccessLog() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		startTime := time.Now()
+		c.Next()
+		LogrusLog.Debug(map[string]interface{}{
+			"status_code": c.Writer.Status(),
+			"client_ip":   c.ClientIP(),
+			"method":      c.Request.Method,
+			"path":        c.Request.URL.Path,
+			"url":         c.Request.URL.String(),
+			"latency":     time.Now().Sub(startTime).String(),
+			"query":       c.Request.URL.Query(),
+			"ContentType": c.ContentType(),
+		})
+	}
+}

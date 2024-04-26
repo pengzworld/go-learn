@@ -1,0 +1,45 @@
+package middleware
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/nolleh/caption_json_formatter"
+	"github.com/sirupsen/logrus"
+	"log"
+	"os"
+	"time"
+)
+
+var (
+	logger = NewLogger()
+)
+
+func NewLogger() *logrus.Logger {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetOutput(os.Stdout)
+	logger := logrus.New()
+	logger.Level = logrus.InfoLevel
+	json := caption_json_formatter.Json()
+	logger.SetFormatter(json)
+	return logger
+}
+
+func Log() *caption_json_formatter.Entry {
+	return &caption_json_formatter.Entry{Entry: logrus.NewEntry(logger)}
+}
+
+func AccessLog() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		startTime := time.Now()
+		c.Next()
+		Log().Debug(map[string]interface{}{
+			"status_code": c.Writer.Status(),
+			"client_ip":   c.ClientIP(),
+			"method":      c.Request.Method,
+			"path":        c.Request.URL.Path,
+			"url":         c.Request.URL.String(),
+			"latency":     time.Now().Sub(startTime).String(),
+			"query":       c.Request.URL.Query(),
+			"ContentType": c.ContentType(),
+		})
+	}
+}

@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// main ./web > log.log 2>&1 &
 func main() {
 	app := newApp()
 	srv := endless.NewServer(":8083", app)

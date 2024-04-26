@@ -35,6 +35,12 @@ func (u *UserController) Login(c *gin.Context) {
 	user := &User{}
 	_, _ = engine.ID(1).Get(user)
 
+	//a := []int{1, 0}
+	//for _, v := range a {
+	//	b := 10 / v
+	//	fmt.Println(b)
+	//}
+
 	c.JSON(200, gin.H{
 		"user": user,
 		"pid":  os.Getpid(),
