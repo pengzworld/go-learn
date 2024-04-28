@@ -35,6 +35,12 @@ go get -u github.com/lestrrat-go/file-rotatelogs
 - [中文文档](https://gin-gonic.com/zh-cn/docs/)
 - [文章](https://www.flysnow.org/2019/12/10/golang-gin-quick-start)
 
+https://github.com/sirupsen/logrus
+https://github.com/natefinch/lumberjack
+
+
+
+
 ```
 go get -u github.com/gin-gonic/gin
 
