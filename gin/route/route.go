@@ -3,12 +3,11 @@ package route
 import (
 	"github.com/gin-gonic/gin"
 	"go-learn/gin/controller"
-	"go-learn/gin/middleware"
 	"log"
 )
 
-func Configure(e *gin.Engine) {
-	e.GET("/ping", gin.BasicAuth(gin.Accounts{"admin": "123"}), func(c *gin.Context) {
+func InitRouter(g *gin.Engine) {
+	g.GET("/ping", gin.BasicAuth(gin.Accounts{"admin": "123"}), func(c *gin.Context) {
 		log.Println(22222222)
 		//c.Abort()
 		c.Next()
@@ -19,9 +18,9 @@ func Configure(e *gin.Engine) {
 		})
 	})
 	//route group
-	admin := e.Group("/admin") // 第二个参数 其实就是中间件
+	admin := g.Group("/admin") // 第二个参数 其实就是中间件
 	{
-		admin.Use(middleware.CostTime()) // 分组中间件
+		//admin.Use(middlewarb.Gin.CostTime()) // 分组中间件
 		//admin.Use(gin.BasicAuth(gin.Accounts{"admin": "123"}))
 		adminV1 := admin.Group("/v1") //路由嵌套分组
 		{
@@ -29,6 +28,6 @@ func Configure(e *gin.Engine) {
 				c.JSON(200, "/admin/v1/user")
 			})
 		}
-		admin.Any("/user/name", new(controller.UserController).Login)
+		admin.GET("/user/name", new(controller.UserController).Login)
 	}
 }

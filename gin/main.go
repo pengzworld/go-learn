@@ -2,13 +2,10 @@ package main
 
 import (
 	"github.com/fvbock/endless"
+	"github.com/gin-gonic/gin"
 	"go-learn/gin/bootstrap"
-	_ "go-learn/gin/config"
-	"go-learn/gin/route"
 	"log"
 	"syscall"
-
-	"github.com/gin-gonic/gin"
 )
 
 // main ./web > log.log 2>&1 &
@@ -28,6 +25,6 @@ func main() {
 }
 
 func newApp() *gin.Engine {
-	app := bootstrap.New(bootstrap.UseDefault, route.Configure)
+	app := bootstrap.NewApplication()
 	return app
 }

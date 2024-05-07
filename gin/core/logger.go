@@ -1,4 +1,4 @@
-package lib
+package core
 
 import (
 	"github.com/natefinch/lumberjack"
@@ -11,12 +11,7 @@ var (
 	Logger        *logrus.Logger
 )
 
-func init() {
-	newWriter()
-	newLogger()
-}
-
-func newWriter() {
+func InitLogger() {
 	DefaultWriter = &lumberjack.Logger{
 		Filename:   "./log/gin.log", //日志文件位置
 		MaxSize:    1,               // 单文件最大容量,单位是MB
@@ -24,13 +19,9 @@ func newWriter() {
 		MaxAge:     1,               // 保留过期文件的最大时间间隔,单位是天
 		Compress:   false,           // 是否需要压缩滚动日志, 使用的 gzip 压缩
 	}
-}
-
-func newLogger() {
-	var logger = logrus.New()
-	logger.SetOutput(DefaultWriter)
-	logger.ReportCaller = true
-	logger.SetLevel(logrus.InfoLevel)
-	logger.SetFormatter(&logrus.JSONFormatter{PrettyPrint: true, DisableHTMLEscape: true})
-	Logger = logger
+	Logger = logrus.New()
+	Logger.SetOutput(DefaultWriter)
+	Logger.ReportCaller = true
+	Logger.SetLevel(C.App.LogLevel)
+	Logger.SetFormatter(&logrus.JSONFormatter{PrettyPrint: true, DisableHTMLEscape: true})
 }

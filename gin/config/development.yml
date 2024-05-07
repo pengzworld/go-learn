@@ -1,0 +1,8 @@
+App:
+  Name: "Iris-demo"
+  IP: 127.0.0.1
+  Host: localhost
+  Port: 8082
+  TimeFormat: "2006-01-02 15:04:05"
+  LogLevel: 4
+  ReleaseMode: "debug"

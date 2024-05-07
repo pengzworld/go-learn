@@ -1,13 +1,9 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/sirupsen/logrus"
-	"go-learn/gin/config"
-	"go-learn/gin/lib"
-	"os"
+	"go-learn/gin/model"
 	"time"
 )
 
@@ -30,26 +26,32 @@ type UserController struct {
 }
 
 func (u *UserController) Login(c *gin.Context) {
-	engine := config.DB
+	userModel := model.NewUserModel()
 
-	lib.Logger.WithFields(logrus.Fields{"testKey": "1234567890"}).Info("Login")
+	user := userModel.Find(1)
 
-	duration, _ := time.ParseDuration(c.DefaultQuery("time", "0s"))
-	time.Sleep(duration)
+	c.JSON(200, user)
 
-	user := &User{}
-	_, _ = engine.ID(1).Get(user)
-
-	a := []int{1, 0}
-	for _, v := range a {
-		b := 10 / v
-		fmt.Println(b)
-	}
-
-	c.JSON(200, gin.H{
-		"user": user,
-		"pid":  os.Getpid(),
-	})
+	//engine := config.DB
+	//
+	//lib.Logger.WithFields(logrus.Fields{"testKey": "1234567890"}).Info("Login")
+	//
+	//duration, _ := time.ParseDuration(c.DefaultQuery("time", "0s"))
+	//time.Sleep(duration)
+	//
+	//user := &User{}
+	//_, _ = engine.ID(1).Get(user)
+	//
+	//a := []int{1, 0}
+	//for _, v := range a {
+	//	b := 10 / v
+	//	fmt.Println(b)
+	//}
+	//
+	//c.JSON(200, gin.H{
+	//	"user": user,
+	//	"pid":  os.Getpid(),
+	//})
 
 	//a := []int{1, 0}
 	//for _, v := range a {
