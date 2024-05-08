@@ -17,6 +17,7 @@ var closeOnce sync.Once
 func Bootstrap() (app *gin.Engine) {
 	core.InitConfig()
 	core.InitLogger()
+	core.InitContainer()
 	//
 	gin.SetMode(core.C.App.ReleaseMode)
 	gin.ForceConsoleColor()

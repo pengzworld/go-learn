@@ -1,9 +1,8 @@
 package model
 
 import (
-	"go-learn/gin/datasource"
+	. "go-learn/gin/datasource"
 	"time"
-
 	"xorm.io/xorm"
 )
 
@@ -27,7 +26,7 @@ type UserModel struct {
 }
 
 func NewUserModel() *UserModel {
-	e, _ := datasource.Database.Get("default")
+	e, _ := Database.Get("default")
 	return &UserModel{
 		Engine: e,
 	}

@@ -4,23 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"go-learn/gin/model"
-	"time"
 )
-
-type User struct {
-	Id              int       `xorm:"not null pk autoincr INT(11)"`
-	Name            string    `xorm:"name"`
-	Email           string    `xorm:"email"`
-	EmailVerifiedAt time.Time `xorm:"TIMESTAMP"`
-	Password        string    `xorm:"password"`
-	RememberToken   string    `xorm:"remember_token"`
-	CreatedAt       time.Time `xorm:"TIMESTAMP"`
-	UpdatedAt       time.Time `xorm:"TIMESTAMP"`
-}
-
-func (u *User) TableName() string {
-	return "users"
-}
 
 type UserController struct {
 }
