@@ -28,15 +28,11 @@ var C = struct {
 			DisableHTMLEscape bool         `yaml:"DisableHTMLEscape"`
 		}
 		SqlLog struct {
-			Path              string       `yaml:"Path"`
-			MaxSize           int          `yaml:"MaxSize"`
-			MaxBackups        int          `yaml:"MaxBackups"`
-			MaxAge            int          `yaml:"MaxAge"`
-			Compress          bool         `yaml:"Compress"`
-			ReportCaller      bool         `yaml:"ReportCaller"`
-			Level             logrus.Level `yaml:"Level"`
-			PrettyPrint       bool         `yaml:"PrettyPrint"`
-			DisableHTMLEscape bool         `yaml:"DisableHTMLEscape"`
+			Path       string `yaml:"Path"`
+			MaxSize    int    `yaml:"MaxSize"`
+			MaxBackups int    `yaml:"MaxBackups"`
+			MaxAge     int    `yaml:"MaxAge"`
+			Compress   bool   `yaml:"Compress"`
 		}
 		AccessLog struct {
 			Path              string       `yaml:"Path"`
