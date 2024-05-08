@@ -61,13 +61,9 @@ func (e *engine) save(key string, value *xorm.Engine) {
 }
 
 func (e *engine) Close() {
-	for k, _ := range configs {
-		e, ok := Database.Get(k)
-		if ok {
-			if err := e.Ping(); err != nil {
-				core.Logger.Printf("Failed to close database %s: %v", k, err)
-				continue
-			}
+	for k, v := range e.engine {
+		if err := v.Close(); err != nil {
+			core.Logger.Printf("Failed to close database engine:%s: %v", k, err)
 		}
 	}
 }
