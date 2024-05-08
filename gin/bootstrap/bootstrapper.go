@@ -14,7 +14,7 @@ import (
 
 var closeOnce sync.Once
 
-func NewApplication() (app *gin.Engine) {
+func Bootstrap() (app *gin.Engine) {
 	core.InitConfig()
 	core.InitLogger()
 	//

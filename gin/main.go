@@ -25,6 +25,6 @@ func main() {
 }
 
 func newApp() *gin.Engine {
-	app := bootstrap.NewApplication()
+	app := bootstrap.Bootstrap()
 	return app
 }
