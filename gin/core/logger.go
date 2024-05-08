@@ -10,12 +10,14 @@ import (
 var (
 	DefaultWriter io.Writer
 	Logger        *logrus.Logger
+	SqlLogWriter  io.Writer
 	AccessLogger  *logrus.Logger
 )
 
 func InitLogger() {
 	newLogger()
 	newAccessLogger()
+	newSqlLogWriter()
 }
 
 func newLogger() {
@@ -32,6 +34,16 @@ func newLogger() {
 	Logger.SetLevel(C.App.Log.Level)
 	Logger.SetFormatter(&logrus.JSONFormatter{PrettyPrint: C.App.Log.PrettyPrint,
 		DisableHTMLEscape: C.App.Log.DisableHTMLEscape})
+}
+
+func newSqlLogWriter() {
+	SqlLogWriter = &lumberjack.Logger{
+		Filename:   C.App.SqlLog.Path,       //日志文件位置
+		MaxSize:    C.App.SqlLog.MaxSize,    // 单文件最大容量,单位是MB
+		MaxBackups: C.App.SqlLog.MaxBackups, // 最大保留过期文件个数
+		MaxAge:     C.App.SqlLog.MaxAge,     // 保留过期文件的最大时间间隔,单位是天
+		Compress:   C.App.SqlLog.Compress,   // 是否需要压缩滚动日志, 使用的 gzip 压缩
+	}
 }
 
 func newAccessLogger() {

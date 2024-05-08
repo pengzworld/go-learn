@@ -3,9 +3,9 @@ package datasource
 import (
 	"fmt"
 	"go-learn/gin/core"
-	"sync"
-
 	"go-learn/gin/utils"
+	"sync"
+	"xorm.io/xorm/log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"xorm.io/xorm"
@@ -81,7 +81,9 @@ func create(c *conf) *xorm.Engine {
 		core.Logger.Printf("Failed to create database engine: %v", err)
 		return nil
 	}
+	engine.SetLogger(log.NewSimpleLogger(core.SqlLogWriter))
 	engine.ShowSQL(true)
+	engine.SetLogLevel(1)
 	engine.SetMaxIdleConns(c.MaxIdleConn) //最大空闲
 	engine.SetMaxOpenConns(c.MaxOpenConn) //最大连接
 	return engine
