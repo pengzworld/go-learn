@@ -17,7 +17,7 @@ App:
     PrettyPrint: true
     DisableHTMLEscape: true
   SqlLog:
-    Path: "./runtime/sql/access.log" #日志文件位置
+    Path: "./runtime/sql/sql.log" #日志文件位置
     MaxSize: 1 #单文件最大容量,单位是MB
     MaxBackups: 3 #最大保留过期文件个数
     MaxAge: 1 #保留过期文件的最大时间间隔,单位是天
@@ -27,7 +27,7 @@ App:
     PrettyPrint: false
     DisableHTMLEscape: true
   AccessLog:
-    Path: "./runtime/access/sql.log" #日志文件位置
+    Path: "./runtime/access/access.log" #日志文件位置
     MaxSize: 1 #单文件最大容量,单位是MB
     MaxBackups: 3 #最大保留过期文件个数
     MaxAge: 1 #保留过期文件的最大时间间隔,单位是天
